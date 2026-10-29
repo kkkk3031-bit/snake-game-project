@@ -10,6 +10,10 @@
   main { display: flex; flex-direction: column; gap: 10px; width: min(92vw, 560px); }
   header { display: flex; justify-content: space-between; font-size: 22px; font-weight: 600; }
   canvas { width: 100%; aspect-ratio: 1; background: #1c1f2b; border-radius: 8px; touch-action: none; }
+  .pad { display: grid; grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(2, 56px);
+    gap: 6px; justify-content: center; user-select: none; touch-action: none; }
+  .pad button { font-size: 24px; border: 0; border-radius: 10px; background: #2a2f42; color: #e8eaf2; }
+  .pad button:active { background: #3ddc5a; color: #14161f; }
   p { margin: 0; text-align: center; opacity: .6; font-size: 14px; }
 </style>
 </head>
@@ -17,6 +21,14 @@
 <main>
   <header><span id="score">Score: 0</span><span id="best">Best: 0</span></header>
   <canvas id="board" width="560" height="560"></canvas>
+  <div class="pad">
+    <button data-action="pause" aria-label="Pause">⏯</button>
+    <button data-action="up" aria-label="Up">▲</button>
+    <button data-action="restart" aria-label="Restart">↻</button>
+    <button data-action="left" aria-label="Left">◀</button>
+    <button data-action="down" aria-label="Down">▼</button>
+    <button data-action="right" aria-label="Right">▶</button>
+  </div>
   <p>Arrows / WASD or swipe · P / Space pause · R / Enter / tap restart</p>
 </main>
 <script src="snake.js"></script>

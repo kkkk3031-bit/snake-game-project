@@ -8,10 +8,19 @@ const CONFIG = {
   foodsPerSpeedup: 5, inputBufferSize: 2,
 };
 const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
-const KEYS = {
-  ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down",
-  ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right",
+// Browsers differ in which field they fill: some leave `code` empty (Android
+// keyboards, remote desktops) or send key "Unidentified" with only `keyCode`.
+// actionFor() checks code, then key, then keyCode.
+const KEY_ACTIONS = {
+  ArrowUp: "up", Up: "up", KeyW: "up", w: "up", W: "up", 38: "up", 87: "up",
+  ArrowDown: "down", Down: "down", KeyS: "down", s: "down", S: "down", 40: "down", 83: "down",
+  ArrowLeft: "left", Left: "left", KeyA: "left", a: "left", A: "left", 37: "left", 65: "left",
+  ArrowRight: "right", Right: "right", KeyD: "right", d: "right", D: "right", 39: "right", 68: "right",
+  KeyP: "pause", p: "pause", P: "pause", Space: "pause", " ": "pause", Spacebar: "pause", 80: "pause", 32: "pause",
+  KeyR: "restart", r: "restart", R: "restart", Enter: "restart", 82: "restart", 13: "restart",
 };
+/** Maps a KeyboardEvent to "up" | "down" | "left" | "right" | "pause" | "restart" | undefined. */
+const actionFor = (e) => KEY_ACTIONS[e.code] || KEY_ACTIONS[e.key] || KEY_ACTIONS[e.keyCode || e.which];
 const COLORS = { grid: "#232737", head: "#7dff8a", body: "#3ddc5a", food: "#ff6b6b" };
 
 /** Pure snake rules; no DOM access. */
@@ -83,7 +92,7 @@ class SnakeLogic {
   }
 }
 
-if (typeof module !== "undefined") module.exports = { SnakeLogic, CONFIG, DIRS };
+if (typeof module !== "undefined") module.exports = { SnakeLogic, CONFIG, DIRS, actionFor };
 
 if (typeof document !== "undefined") {
   const canvas = document.getElementById("board");
@@ -146,12 +155,24 @@ if (typeof document !== "undefined") {
     }
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (KEYS[e.code]) { e.preventDefault(); steer(KEYS[e.code]); }
-    else if ((e.code === "KeyP" || e.code === "Space") && started && game.alive) { e.preventDefault(); paused = !paused; }
-    else if ((e.code === "KeyR" || e.code === "Enter") && !game.alive) restart();
+  const act = (action) => {
+    if (DIRS[action]) steer(action);
+    else if (action === "pause" && started && game.alive) paused = !paused;
+    else if (action === "restart" && !game.alive) restart();
     draw();
+  };
+
+  window.addEventListener("keydown", (e) => {
+    const action = actionFor(e);
+    if (!action) return;
+    e.preventDefault();
+    act(action);
   });
+
+  document.querySelectorAll("[data-action]").forEach((btn) =>
+    btn.addEventListener("pointerdown", (e) => { e.preventDefault(); act(btn.dataset.action); }));
+
+  window.snakeGame = { logic: game, state: () => ({ started, paused, alive: game.alive, dir: game.dir, head: game.body[0], score: game.score }) };
 
   let touch = null;
   canvas.addEventListener("pointerdown", (e) => { touch = [e.clientX, e.clientY]; });

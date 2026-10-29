@@ -1,0 +1,11 @@
+{
+  "name": "snake-game-project",
+  "private": true,
+  "scripts": {
+    "test:web": "node --test tests/web/snake_logic.test.js",
+    "test:e2e": "node tests/web/keys.e2e.js"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.64.1"
+  }
+}
