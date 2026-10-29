@@ -1,0 +1,11 @@
+{
+  "grid_cols": 20,
+  "grid_rows": 20,
+  "cell_px": 28,
+  "start_length": 3,
+  "base_tick_ms": 150,
+  "min_tick_ms": 60,
+  "tick_step_ms": 10,
+  "foods_per_speedup": 5,
+  "input_buffer_size": 2
+}

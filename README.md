@@ -1,3 +1,23 @@
+# Snake — built with Claude Code Game Studios
+
+A small grid Snake game made with the [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios)
+template (v1.2.0, `minimal` rigor). It comes in two builds that share the same rules:
+
+| Build | Where | Run it |
+|---|---|---|
+| Godot 4.7 (GDScript) | `project.godot`, `src/` | open the folder in Godot 4.7+ and press Play, or `godot --path .` |
+| HTML5 (plain JS + canvas) | `web/` | open `web/index.html` in a browser (no build step) |
+
+**Controls:** arrows / WASD (swipe on touch in the web build) · P / Space to pause · R / Enter to restart.
+Tuning values live in `assets/data/snake_config.json`; the design is in `design/game-brief.md`.
+
+**Tests:** `godot --headless --path . -s res://tests/run_tests.gd` (Godot rules) ·
+`node --test tests/web/snake_logic.test.js` (web port). Screenshots are in `production/qa/evidence/`.
+
+---
+
+*The rest of this README is the upstream studio template's documentation.*
+
 <p align="center">
   <h1 align="center">Claude Code Game Studios</h1>
   <p align="center">

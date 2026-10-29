@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Snake</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14161f; color: #e8eaf2;
+    font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; }
+  main { display: flex; flex-direction: column; gap: 10px; width: min(92vw, 560px); }
+  header { display: flex; justify-content: space-between; font-size: 22px; font-weight: 600; }
+  canvas { width: 100%; aspect-ratio: 1; background: #1c1f2b; border-radius: 8px; touch-action: none; }
+  p { margin: 0; text-align: center; opacity: .6; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <header><span id="score">Score: 0</span><span id="best">Best: 0</span></header>
+  <canvas id="board" width="560" height="560"></canvas>
+  <p>Arrows / WASD or swipe · P / Space pause · R / Enter / tap restart</p>
+</main>
+<script src="snake.js"></script>
+</body>
+</html>
